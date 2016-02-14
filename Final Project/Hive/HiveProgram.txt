@@ -1,0 +1,30 @@
+hadoop fs -cat hiveInput1/OrderedSocialInput.txt
+
+hadoop fs -ls hiveInput1
+
+hadoop fs -cat hiveInput1/OrderedEconomicIndex.txt
+
+create external table t1(CompositeSocialIndexValue decimal,Country string) row format delimited fields terminated by '\073' location '/user/cloudera/hiveInput1/';
+
+show tables;
+
+describe t1;
+
+create external table t2(CompositeEconomicIndexValue decimal,Country string) row format delimited fields terminated by '\073' location '/user/cloudera/hiveInput2/';
+
+describe t2;
+
+select t1.country,t1.socialindex,t2.country,t2.economicindex from t1 join t2 on (t1.country = t2.country);  
+
+
+create table maxsocial as select max(t1.socialindex) as maxvalue from t1;
+create table socialwithmax as select * from t1 join maxsocial;
+create table scaledsocial as select socialwithmax.country, (socialwithmax.socialindex / socialwithmax.maxvalue * 50) value from socialwithmax;
+
+create table maxeconomic as select max(t3.economicindex) as maxvalue from t3;
+create table economicwithmax as select * from t3 join maxeconomic;
+create table scaledeconomic as select economicwithmax.country, (economicwithmax.economicindex / economicwithmax.maxvalue * 50) value from economicwithmax;
+
+
+create table scaledaggregate as select scaledsocial.country, (scaledsocial.value + scaledeconomic.value) aggregate from scaledsocial join scaledeconomic on (scaledsocial.country = scaledeconomic.country) order by aggregate;
+

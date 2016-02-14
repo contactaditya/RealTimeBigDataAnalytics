@@ -1,0 +1,46 @@
+Aditya Gupta, Shikuan Huang, Xiangbo Liang
+Professor McIntosh
+Realtime and Big Data Analytics
+6, May 2015
+
+Readme For Social Index Programs
+================================
+*** The map reduce jobs are run in the following order:
+
+ExtractUNDPSocialCSVJob
+ExtractUNDPSocialCSVMapper
+ExtractUNDPSocialCSVReducer
+	- Extracts into text files the raw data obtained from the UNDP website.
+
+RunSocialAnalyticJob
+	- Runs all the map reduce jobs listed below.  Outputs are automatically generated.  Text files obtained from "ExtractUNDPSocialData" is used as input.
+
+GetCommonCountriesJob
+GetCommonCountriesMapper
+GetCommonCountriesReducer
+	- Extracts the list of common countries in both UNDP and World Bank data.  Input is GDPPerCapita.txt.
+
+AggregateSocialDataJob
+AggregateSocialDataMapper
+AggregateSocialDataReducer
+	- Combines all social indicators for all countries into one output file.  Input file is the single file containing the file names of all the social indicators.
+
+FindFilteredIndicatorMaxJob
+FindFilteredIndicatorMaxMapper
+FindFilteredIndicatorMaxReducer
+	- Finds the values used to normalize the indicator values.  Input is the output file from "AggregateSocialDataJob".
+
+FilterCountriesAndIndicesJob
+FilterCountriesAndIndicesMapper
+FilterCountriesAndIndicesReducer
+	- Removes countries that do not have all the requisite data.  Input is the output file from "AggregateSocialDataJob".
+
+ComputeSocialIndexJob
+ComputeSocialIndexMapper
+ComputeSocialIndexReducer
+	- Computes the social index using the output from "FilterCountriesAndIndicesJob".  Output is the list of countries with their social index.
+
+OrderBySocialIndexJob
+OrderBySocialIndexMapper
+OrderBySocialIndexReducer
+	- Orders each country by its social index.  Input is the output from "ComputeSocialIndexJob".
