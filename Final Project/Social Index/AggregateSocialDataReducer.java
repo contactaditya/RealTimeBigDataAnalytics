@@ -20,9 +20,8 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class AggregateSocialDataReducer extends Reducer<Text, Text, Text, Text> {
   @Override
-  public void reduce(Text key, Iterable<Text> values, Context context) 
-      throws IOException, InterruptedException {
-	String cummulativeIndicatorsString = "";
+  public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException { 
+    String cummulativeIndicatorsString = "";
     for (Text value : values) {
       cummulativeIndicatorsString += value.toString() + ";";
     }
