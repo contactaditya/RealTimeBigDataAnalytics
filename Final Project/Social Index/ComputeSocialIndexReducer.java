@@ -18,17 +18,15 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class ComputeSocialIndexReducer 
-	extends Reducer<Text, Text, Text, Text> {
-	@Override
-	  public void reduce(Text key, Iterable<Text> values, Context context)
-	      throws IOException, InterruptedException { 
-		double socialIndex = 0;
-		for (Text value : values) {
-		  double currentIndicatorValue = Double.parseDouble(value.toString());
-		  socialIndex += currentIndicatorValue;
-		}
+public class ComputeSocialIndexReducer extends Reducer<Text, Text, Text, Text> {
+   @Override
+   public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException { 
+      double socialIndex = 0;
+      for (Text value : values) {
+	double currentIndicatorValue = Double.parseDouble(value.toString());
+	socialIndex += currentIndicatorValue;
+      }
 		
-		context.write(key, new Text(String.valueOf(socialIndex)));
-	}
+      context.write(key, new Text(String.valueOf(socialIndex)));
+   }
 }
