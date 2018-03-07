@@ -14,28 +14,28 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class ComputeSocialIndexJob {
-	public static void main(String[] args) throws Exception {
-		if (args.length < 2) {
-		  System.err.println("Usage: ComputeSocialIndex <input path> <output path>");
-		}
+public class ComputeSocialIndexJob { 
+   public static void main(String[] args) throws Exception {
+      if (args.length < 2) {
+	System.err.println("Usage: ComputeSocialIndex <input path> <output path>");
+      }
 		
-		Configuration conf = new Configuration();
-		conf.set("mapreduce.output.textoutputformat.separator", ";");
+      Configuration conf = new Configuration();
+      conf.set("mapreduce.output.textoutputformat.separator", ";");
 
-		Job job = new Job(conf);
-		job.setJarByClass(ExtractUNDPSocialCSVJob.class);
-		job.setJobName("ComputeSocialIndexJob");
+      Job job = new Job(conf);
+      job.setJarByClass(ExtractUNDPSocialCSVJob.class);
+      job.setJobName("ComputeSocialIndexJob");
 		
-		FileInputFormat.addInputPath(job, new Path(args[0]));
-		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+      FileInputFormat.addInputPath(job, new Path(args[0]));
+      FileOutputFormat.setOutputPath(job, new Path(args[1]));
 		
-		job.setMapperClass(ComputeSocialIndexMapper.class);
-		job.setReducerClass(ComputeSocialIndexReducer.class);
+      job.setMapperClass(ComputeSocialIndexMapper.class);
+      job.setReducerClass(ComputeSocialIndexReducer.class);
 		
-		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(Text.class);
+      job.setOutputKeyClass(Text.class);
+      job.setOutputValueClass(Text.class);
 		
-		System.exit(job.waitForCompletion(true) ? 0 : 1);
-	  }
+      System.exit(job.waitForCompletion(true) ? 0 : 1);
+   }
 }
