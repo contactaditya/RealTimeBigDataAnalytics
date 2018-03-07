@@ -19,26 +19,24 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.conf.Configuration;
 
-public class GetCommonCountriesMapper
-    extends Mapper<LongWritable, Text, Text, Text> {
+public class GetCommonCountriesMapper extends Mapper<LongWritable, Text, Text, Text> {
   
   @Override
-  public void map(LongWritable key, Text value, Context context) 
-      throws IOException, InterruptedException {
-	String line = value.toString();
-	if (!line.isEmpty()) {
-	  String country = "";
-	  StringTokenizer tokens = new StringTokenizer(line);
-	  int numOfTokens = tokens.countTokens();
-	  for (int i = 0; i < numOfTokens - 1; i++) {
-	    String nextVal = tokens.nextToken();
-	    country += nextVal;
-	    if (i != numOfTokens - 2) {
-	      country += " ";
-	    }
-	  }
+  public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+    String line = value.toString();
+    if (!line.isEmpty()) {
+      String country = "";
+      StringTokenizer tokens = new StringTokenizer(line);
+      int numOfTokens = tokens.countTokens();
+      for (int i = 0; i < numOfTokens - 1; i++) {
+        String nextVal = tokens.nextToken();
+	country += nextVal;
+	if (i != numOfTokens - 2) {
+	  country += " ";
+        }
+      }
 	  
-	  context.write(new Text(country), new Text(country));
-	}
+      context.write(new Text(country), new Text(country));
+    }
   }
 }
