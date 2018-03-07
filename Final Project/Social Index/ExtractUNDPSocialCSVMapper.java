@@ -13,7 +13,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.conf.Configuration;
 
-public class ExtractUNDPSocialCSVMapper extends Mapper<LongWritable, Text, Text, Text>{
+public class ExtractUNDPSocialCSVMapper extends Mapper<LongWritable, Text, Text, Text> {
 	
   @Override
   public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
