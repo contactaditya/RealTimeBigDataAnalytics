@@ -20,17 +20,14 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.conf.Configuration;
 
-public class OrderBySocialIndexMapper
-	extends Mapper<LongWritable, Text, Text, Text> {
-		@Override
-		  public void map(LongWritable key, Text value, Context context) 
-		      throws IOException, InterruptedException {
-		  
-		    String line = value.toString();
-		    if (!line.isEmpty()) {
-		      String[] tokens = line.split(";");
-		      double invertedSocialIndex = 1.0 / (Double.valueOf(tokens[1]));
-		      context.write(new Text(String.valueOf(invertedSocialIndex)), new Text(tokens[0]));
-		    }
-		}
-}
+ public class OrderBySocialIndexMapper extends Mapper<LongWritable, Text, Text, Text> {
+   @Override
+   public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {  
+     String line = value.toString();
+     if (!line.isEmpty()) {
+       String[] tokens = line.split(";");
+       double invertedSocialIndex = 1.0 / (Double.valueOf(tokens[1]));
+       context.write(new Text(String.valueOf(invertedSocialIndex)), new Text(tokens[0]));
+     }
+   }
+ }
